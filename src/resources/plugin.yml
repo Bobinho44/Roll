@@ -1,0 +1,8 @@
+name: Roll
+main: fr.bobinho.roll.RollCore
+version: 0.0.1
+author: Bobinho
+api-version: 1.17
+commands:
+  cmd:
+    description: commands.
