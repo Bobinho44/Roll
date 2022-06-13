@@ -1,6 +1,7 @@
 package fr.bobinho.roll.wrapper;
 
 import fr.bobinho.roll.api.validate.BValidate;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
@@ -9,22 +10,34 @@ import java.util.List;
 /**
  * Wrapper of multi-valued attribute
  */
-public class MultiValuedAttribute<T> {
+public class MultiValuedAttribute<T> extends ReadOnlyMultiValuedAttribute<T> {
 
     /**
-     * Fields
-     */
-    private final List<T> values = new ArrayList<>();
-
-    /**
-     * Gets the value at index i of the multi-valued attribute
+     * Creates a new multi-valued attribute wrapper with initial values
      *
-     * @param i the index of the value
-     * @return the value at index i of the multi-valued attribute
+     * @param values the initial values
      */
-    @Nonnull
-    public T get(int i) {
-        return values.get(i);
+    public MultiValuedAttribute(@NotNull List<T> values) {
+        super(values);
+    }
+
+    /**
+     * Creates an empty new multi-valued attribute wrapper
+     */
+    public MultiValuedAttribute() {
+        super(new ArrayList<>());
+    }
+
+    /**
+     * Replaces the index-th value of the list
+     *
+     * @param index the index
+     * @param value the new value
+     */
+    public void set(int index, @Nonnull T value) {
+        BValidate.notNull(value);
+
+        values.set(index, value);
     }
 
     /**

@@ -2,7 +2,92 @@ name: Roll
 main: fr.bobinho.roll.RollCore
 version: 0.0.1
 author: Bobinho
-api-version: 1.17
+api-version: 1.18
 commands:
-  cmd:
-    description: commands.
+  attribute:
+    description: /attribute
+    permission: attribute
+  attribute_help:
+    description: /attribute help
+    permission: attribute.help
+  attribute_give:
+    description: /attribute give <player>
+    permission: attribute.give
+  attribute_remove:
+    description: /attribute remove <player>
+    permission: attribute.remove
+  attribute_reset:
+    description: /attribute reset <player>
+    permission: attribute.reset
+  roll:
+    description: /roll [max]
+    permission: roll
+  roll_help:
+    description: /roll help
+    permission: roll.help
+  roll_attack:
+    description: /roll attack
+    permission: roll.attack
+  roll_defend:
+    description: /roll defend
+    permission: roll.defend
+  roll_range:
+    description: /roll range
+    permission: roll.range
+  roll_run:
+    description: /roll run
+    permission: roll.run
+  roll_grab:
+    description: /roll grab
+    permission: roll.grab
+  roll_resist:
+    description: /roll resist
+    permission: roll.resist
+  roll_pickpocket:
+    description: /roll pickpocket
+    permission: roll.pickpocket
+  roll_stealth:
+    description: /roll stealth
+    permission: roll.stealth
+  roll_acrobatics:
+    description: /roll acrobatics
+    permission: roll.acrobatics
+  roll_athletics:
+    description: /roll athletics
+    permission: roll.athletics
+  roll_reflex:
+    description: /roll reflex
+    permission: roll.reflex
+  roll_charisma:
+    description: /roll charisma
+    permission: roll.charisma
+  roll_persuasion:
+    description: /roll persuasion
+    permission: roll.persuasion
+  roll_deception:
+    description: /roll deception
+    permission: roll.deception
+  roll_intimidation:
+    description: /roll intimidation
+    permission: roll.intimidation
+  roll_religion:
+    description: /roll religion
+    permission: roll.religion
+  roll_perception:
+    description: /roll perception
+    permission: roll.perception
+  roll_nature:
+    description: /roll nature
+    permission: roll.nature
+  roll_animal:
+    description: /roll animal
+    permission: roll.animal
+  roll_medicine:
+    description: /roll medicine
+    permission: roll.medicine
+  roll_performance:
+    description: /roll performance
+    permission: roll.performance
+  roll_lockpick:
+    description: /roll lockpick
+    permission: roll.lockpick
