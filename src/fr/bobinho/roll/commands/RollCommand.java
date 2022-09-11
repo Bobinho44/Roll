@@ -4,12 +4,15 @@ import co.aikar.commands.annotation.*;
 import fr.bobinho.roll.api.command.BCommand;
 import fr.bobinho.roll.api.notification.BPlaceHolder;
 import fr.bobinho.roll.api.number.BNumber;
+import fr.bobinho.roll.api.validate.BValidate;
 import fr.bobinho.roll.util.attribute.Attribute;
 import fr.bobinho.roll.util.notification.RollNotification;
 import fr.bobinho.roll.util.player.AttributePlayerManager;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+
+import javax.annotation.Nonnull;
 
 /**
  * Command of roll
@@ -37,7 +40,7 @@ public final class RollCommand extends BCommand {
     @Description("Dices a classic roll.")
     public void onCommandRoll(Player sender, @Optional Integer max) {
         max = (max == null || max < 1) ? 20 : max;
-        sender.sendMessage(RollNotification.ROLL.getNotification(new BPlaceHolder("%sender%", sender.getName()),
+        sendMessage(sender, RollNotification.ROLL.getNotification(new BPlaceHolder("%sender%", sender.getName()),
                 new BPlaceHolder("%roll%", "" + (BNumber.random(1, max + 1))), new BPlaceHolder("%max%", "" + (int) max)));
     }
 
@@ -66,13 +69,13 @@ public final class RollCommand extends BCommand {
 
         //Sends message
         if (rolled < 10)
-            sender.sendMessage(RollNotification.ROLL_ATTACK_LESS_10.getNotification(new BPlaceHolder("%sender%", sender.getName()),
+            sendMessage(sender, RollNotification.ROLL_ATTACK_LESS_10.getNotification(new BPlaceHolder("%sender%", sender.getName()),
                     new BPlaceHolder("%roll%", "" + rolled), new BPlaceHolder("%max%", "" + (int) max)));
         else if (rolled == 20)
-            sender.sendMessage(RollNotification.ROLL_ATTACK_20.getNotification(new BPlaceHolder("%sender%", sender.getName()),
+            sendMessage(sender, RollNotification.ROLL_ATTACK_20.getNotification(new BPlaceHolder("%sender%", sender.getName()),
                     new BPlaceHolder("%roll%", "" + rolled), new BPlaceHolder("%max%", "" + (int) max)));
         else
-            sender.sendMessage(RollNotification.ROLL_ATTACK_MORE_10.getNotification(new BPlaceHolder("%sender%", sender.getName()),
+            sendMessage(sender, RollNotification.ROLL_ATTACK_MORE_10.getNotification(new BPlaceHolder("%sender%", sender.getName()),
                     new BPlaceHolder("%roll%", "" + rolled), new BPlaceHolder("%max%", "" + (int) max)));
     }
 
@@ -106,13 +109,13 @@ public final class RollCommand extends BCommand {
 
         //Sends message
         if (rolled < 10)
-            sender.sendMessage(RollNotification.ROLL_DEFEND_LESS_10.getNotification(new BPlaceHolder("%sender%", sender.getName()),
+            sendMessage(sender, RollNotification.ROLL_DEFEND_LESS_10.getNotification(new BPlaceHolder("%sender%", sender.getName()),
                     new BPlaceHolder("%roll%", "" + rolled), new BPlaceHolder("%max%", "" + (int) max)));
         else if (rolled == 20)
-            sender.sendMessage(RollNotification.ROLL_DEFEND_20.getNotification(new BPlaceHolder("%sender%", sender.getName()),
+            sendMessage(sender, RollNotification.ROLL_DEFEND_20.getNotification(new BPlaceHolder("%sender%", sender.getName()),
                     new BPlaceHolder("%roll%", "" + rolled), new BPlaceHolder("%max%", "" + (int) max)));
         else
-            sender.sendMessage(RollNotification.ROLL_DEFEND_MORE_10.getNotification(new BPlaceHolder("%sender%", sender.getName()),
+            sendMessage(sender, RollNotification.ROLL_DEFEND_MORE_10.getNotification(new BPlaceHolder("%sender%", sender.getName()),
                     new BPlaceHolder("%roll%", "" + rolled), new BPlaceHolder("%max%", "" + (int) max)));
     }
 
@@ -144,7 +147,7 @@ public final class RollCommand extends BCommand {
             case STICK -> 2;
             case BLAZE_ROD -> 2;
             case WRITTEN_BOOK -> 2;
-            default -> 3;
+            default -> 0;
         };
 
         //Gets rolled value
@@ -152,13 +155,13 @@ public final class RollCommand extends BCommand {
 
         //Sends message
         if (rolled < 10)
-            sender.sendMessage(RollNotification.ROLL_RANGE_LESS_10.getNotification(new BPlaceHolder("%sender%", sender.getName()),
+            sendMessage(sender, RollNotification.ROLL_RANGE_LESS_10.getNotification(new BPlaceHolder("%sender%", sender.getName()),
                     new BPlaceHolder("%roll%", "" + rolled), new BPlaceHolder("%max%", "" + (int) max)));
         else if (rolled == 20)
-            sender.sendMessage(RollNotification.ROLL_RANGE_20.getNotification(new BPlaceHolder("%sender%", sender.getName()),
+            sendMessage(sender, RollNotification.ROLL_RANGE_20.getNotification(new BPlaceHolder("%sender%", sender.getName()),
                     new BPlaceHolder("%roll%", "" + rolled), new BPlaceHolder("%max%", "" + (int) max)));
         else
-            sender.sendMessage(RollNotification.ROLL_RANGE_MORE_10.getNotification(new BPlaceHolder("%sender%", sender.getName()),
+            sendMessage(sender, RollNotification.ROLL_RANGE_MORE_10.getNotification(new BPlaceHolder("%sender%", sender.getName()),
                     new BPlaceHolder("%roll%", "" + rolled), new BPlaceHolder("%max%", "" + (int) max)));
     }
 
@@ -192,10 +195,10 @@ public final class RollCommand extends BCommand {
 
         //Sends message
         if (rolled == 20)
-            sender.sendMessage(RollNotification.ROLL_RUN_20.getNotification(new BPlaceHolder("%sender%", sender.getName()),
+            sendMessage(sender, RollNotification.ROLL_RUN_20.getNotification(new BPlaceHolder("%sender%", sender.getName()),
                     new BPlaceHolder("%roll%", "" + rolled), new BPlaceHolder("%max%", "" + (int) max)));
         else
-            sender.sendMessage(RollNotification.ROLL_RUN_NOT_20.getNotification(new BPlaceHolder("%sender%", sender.getName()),
+            sendMessage(sender, RollNotification.ROLL_RUN_NOT_20.getNotification(new BPlaceHolder("%sender%", sender.getName()),
                     new BPlaceHolder("%roll%", "" + rolled), new BPlaceHolder("%max%", "" + (int) max)));
     }
 
@@ -229,10 +232,10 @@ public final class RollCommand extends BCommand {
 
         //Sends message
         if (rolled == 20)
-            sender.sendMessage(RollNotification.ROLL_GRAB_20.getNotification(new BPlaceHolder("%sender%", sender.getName()),
+            sendMessage(sender, RollNotification.ROLL_GRAB_20.getNotification(new BPlaceHolder("%sender%", sender.getName()),
                     new BPlaceHolder("%roll%", "" + rolled), new BPlaceHolder("%max%", "" + (int) max)));
         else
-            sender.sendMessage(RollNotification.ROLL_GRAB_NOT_20.getNotification(new BPlaceHolder("%sender%", sender.getName()),
+            sendMessage(sender, RollNotification.ROLL_GRAB_NOT_20.getNotification(new BPlaceHolder("%sender%", sender.getName()),
                     new BPlaceHolder("%roll%", "" + rolled), new BPlaceHolder("%max%", "" + (int) max)));
     }
 
@@ -266,10 +269,10 @@ public final class RollCommand extends BCommand {
 
         //Sends message
         if (rolled == 20)
-            sender.sendMessage(RollNotification.ROLL_RESIST_20.getNotification(new BPlaceHolder("%sender%", sender.getName()),
+            sendMessage(sender, RollNotification.ROLL_RESIST_20.getNotification(new BPlaceHolder("%sender%", sender.getName()),
                     new BPlaceHolder("%roll%", "" + rolled), new BPlaceHolder("%max%", "" + (int) max)));
         else
-            sender.sendMessage(RollNotification.ROLL_RESIST_NOT_20.getNotification(new BPlaceHolder("%sender%", sender.getName()),
+            sendMessage(sender, RollNotification.ROLL_RESIST_NOT_20.getNotification(new BPlaceHolder("%sender%", sender.getName()),
                     new BPlaceHolder("%roll%", "" + rolled), new BPlaceHolder("%max%", "" + (int) max)));
     }
 
@@ -304,13 +307,13 @@ public final class RollCommand extends BCommand {
 
             //Sends message
             if (rolled < 10)
-                sender.sendMessage(RollNotification.ROLL_PICKPOCKET_LESS_10.getNotification(new BPlaceHolder("%sender%", sender.getName()),
+                sendMessage(sender, RollNotification.ROLL_PICKPOCKET_LESS_10.getNotification(new BPlaceHolder("%sender%", sender.getName()),
                         new BPlaceHolder("%roll%", "" + rolled), new BPlaceHolder("%max%", "" + (int) max)));
             else if (rolled == 20)
-                sender.sendMessage(RollNotification.ROLL_PICKPOCKET_20.getNotification(new BPlaceHolder("%sender%", sender.getName()),
+                sendMessage(sender, RollNotification.ROLL_PICKPOCKET_20.getNotification(new BPlaceHolder("%sender%", sender.getName()),
                         new BPlaceHolder("%roll%", "" + rolled), new BPlaceHolder("%max%", "" + (int) max)));
             else
-                sender.sendMessage(RollNotification.ROLL_PICKPOCKET_MORE_10.getNotification(new BPlaceHolder("%sender%", sender.getName()),
+                sendMessage(sender, RollNotification.ROLL_PICKPOCKET_MORE_10.getNotification(new BPlaceHolder("%sender%", sender.getName()),
                         new BPlaceHolder("%roll%", "" + rolled), new BPlaceHolder("%max%", "" + (int) max)));
         });
     }
@@ -346,10 +349,10 @@ public final class RollCommand extends BCommand {
 
             //Sends message
             if (rolled < 10)
-                sender.sendMessage(RollNotification.ROLL_STEALTH_LESS_10.getNotification(new BPlaceHolder("%sender%", sender.getName()),
+                sendMessage(sender, RollNotification.ROLL_STEALTH_LESS_10.getNotification(new BPlaceHolder("%sender%", sender.getName()),
                         new BPlaceHolder("%roll%", "" + rolled), new BPlaceHolder("%max%", "" + (int) max)));
             else
-                sender.sendMessage(RollNotification.ROLL_STEALTH_MORE_10.getNotification(new BPlaceHolder("%sender%", sender.getName()),
+                sendMessage(sender, RollNotification.ROLL_STEALTH_MORE_10.getNotification(new BPlaceHolder("%sender%", sender.getName()),
                         new BPlaceHolder("%roll%", "" + rolled), new BPlaceHolder("%max%", "" + (int) max)));
         });
     }
@@ -372,10 +375,10 @@ public final class RollCommand extends BCommand {
 
             //Sends message
             if (rolled < 10)
-                sender.sendMessage(RollNotification.ROLL_ACROBATICS_LESS_10.getNotification(new BPlaceHolder("%sender%", sender.getName()),
+                sendMessage(sender, RollNotification.ROLL_ACROBATICS_LESS_10.getNotification(new BPlaceHolder("%sender%", sender.getName()),
                         new BPlaceHolder("%roll%", "" + rolled), new BPlaceHolder("%max%", "" + (int) max)));
             else
-                sender.sendMessage(RollNotification.ROLL_ACROBATICS_MORE_10.getNotification(new BPlaceHolder("%sender%", sender.getName()),
+                sendMessage(sender, RollNotification.ROLL_ACROBATICS_MORE_10.getNotification(new BPlaceHolder("%sender%", sender.getName()),
                         new BPlaceHolder("%roll%", "" + rolled), new BPlaceHolder("%max%", "" + (int) max)));
         });
     }
@@ -398,10 +401,10 @@ public final class RollCommand extends BCommand {
 
             //Sends message
             if (rolled < 10)
-                sender.sendMessage(RollNotification.ROLL_ATHLETICS_LESS_10.getNotification(new BPlaceHolder("%sender%", sender.getName()),
+                sendMessage(sender, RollNotification.ROLL_ATHLETICS_LESS_10.getNotification(new BPlaceHolder("%sender%", sender.getName()),
                         new BPlaceHolder("%roll%", "" + rolled), new BPlaceHolder("%max%", "" + (int) max)));
             else
-                sender.sendMessage(RollNotification.ROLL_ATHLETICS_MORE_10.getNotification(new BPlaceHolder("%sender%", sender.getName()),
+                sendMessage(sender, RollNotification.ROLL_ATHLETICS_MORE_10.getNotification(new BPlaceHolder("%sender%", sender.getName()),
                         new BPlaceHolder("%roll%", "" + rolled), new BPlaceHolder("%max%", "" + (int) max)));
         });
     }
@@ -424,10 +427,10 @@ public final class RollCommand extends BCommand {
 
             //Sends message
             if (rolled < 10)
-                sender.sendMessage(RollNotification.ROLL_REFLEX_LESS_10.getNotification(new BPlaceHolder("%sender%", sender.getName()),
+                sendMessage(sender, RollNotification.ROLL_REFLEX_LESS_10.getNotification(new BPlaceHolder("%sender%", sender.getName()),
                         new BPlaceHolder("%roll%", "" + rolled), new BPlaceHolder("%max%", "" + (int) max)));
             else
-                sender.sendMessage(RollNotification.ROLL_REFLEX_MORE_10.getNotification(new BPlaceHolder("%sender%", sender.getName()),
+                sendMessage(sender, RollNotification.ROLL_REFLEX_MORE_10.getNotification(new BPlaceHolder("%sender%", sender.getName()),
                         new BPlaceHolder("%roll%", "" + rolled), new BPlaceHolder("%max%", "" + (int) max)));
         });
     }
@@ -449,11 +452,11 @@ public final class RollCommand extends BCommand {
             int rolled = BNumber.random(1, (int) max + 1);
 
             //Sends message
-            if (rolled < 10)
-                sender.sendMessage(RollNotification.ROLL_CHARISMA_LESS_10.getNotification(new BPlaceHolder("%sender%", sender.getName()),
+            if (rolled < 15)
+                sendMessage(sender, RollNotification.ROLL_CHARISMA_LESS_15.getNotification(new BPlaceHolder("%sender%", sender.getName()),
                         new BPlaceHolder("%roll%", "" + rolled), new BPlaceHolder("%max%", "" + (int) max)));
             else
-                sender.sendMessage(RollNotification.ROLL_CHARISMA_MORE_10.getNotification(new BPlaceHolder("%sender%", sender.getName()),
+                sendMessage(sender, RollNotification.ROLL_CHARISMA_MORE_15.getNotification(new BPlaceHolder("%sender%", sender.getName()),
                         new BPlaceHolder("%roll%", "" + rolled), new BPlaceHolder("%max%", "" + (int) max)));
         });
     }
@@ -475,11 +478,11 @@ public final class RollCommand extends BCommand {
             int rolled = BNumber.random(1, (int) max + 1);
 
             //Sends message
-            if (rolled < 10)
-                sender.sendMessage(RollNotification.ROLL_PERSUASION_LESS_10.getNotification(new BPlaceHolder("%sender%", sender.getName()),
+            if (rolled < 15)
+                sendMessage(sender, RollNotification.ROLL_PERSUASION_LESS_15.getNotification(new BPlaceHolder("%sender%", sender.getName()),
                         new BPlaceHolder("%roll%", "" + rolled), new BPlaceHolder("%max%", "" + (int) max)));
             else
-                sender.sendMessage(RollNotification.ROLL_PERSUASION_MORE_10.getNotification(new BPlaceHolder("%sender%", sender.getName()),
+                sendMessage(sender, RollNotification.ROLL_PERSUASION_MORE_15.getNotification(new BPlaceHolder("%sender%", sender.getName()),
                         new BPlaceHolder("%roll%", "" + rolled), new BPlaceHolder("%max%", "" + (int) max)));
         });
     }
@@ -501,11 +504,11 @@ public final class RollCommand extends BCommand {
             int rolled = BNumber.random(1, (int) max + 1);
 
             //Sends message
-            if (rolled < 10)
-                sender.sendMessage(RollNotification.ROLL_DECEPTION_LESS_10.getNotification(new BPlaceHolder("%sender%", sender.getName()),
+            if (rolled < 15)
+                sendMessage(sender, RollNotification.ROLL_DECEPTION_LESS_15.getNotification(new BPlaceHolder("%sender%", sender.getName()),
                         new BPlaceHolder("%roll%", "" + rolled), new BPlaceHolder("%max%", "" + (int) max)));
             else
-                sender.sendMessage(RollNotification.ROLL_DECEPTION_MORE_10.getNotification(new BPlaceHolder("%sender%", sender.getName()),
+                sendMessage(sender, RollNotification.ROLL_DECEPTION_MORE_15.getNotification(new BPlaceHolder("%sender%", sender.getName()),
                         new BPlaceHolder("%roll%", "" + rolled), new BPlaceHolder("%max%", "" + (int) max)));
         });
     }
@@ -527,11 +530,11 @@ public final class RollCommand extends BCommand {
             int rolled = BNumber.random(1, (int) max + 1);
 
             //Sends message
-            if (rolled < 10)
-                sender.sendMessage(RollNotification.ROLL_INTIMIDATION_LESS_10.getNotification(new BPlaceHolder("%sender%", sender.getName()),
+            if (rolled < 15)
+                sendMessage(sender, RollNotification.ROLL_INTIMIDATION_LESS_15.getNotification(new BPlaceHolder("%sender%", sender.getName()),
                         new BPlaceHolder("%roll%", "" + rolled), new BPlaceHolder("%max%", "" + (int) max)));
             else
-                sender.sendMessage(RollNotification.ROLL_INTIMIDATION_MORE_10.getNotification(new BPlaceHolder("%sender%", sender.getName()),
+                sendMessage(sender, RollNotification.ROLL_INTIMIDATION_MORE_15.getNotification(new BPlaceHolder("%sender%", sender.getName()),
                         new BPlaceHolder("%roll%", "" + rolled), new BPlaceHolder("%max%", "" + (int) max)));
         });
     }
@@ -553,11 +556,11 @@ public final class RollCommand extends BCommand {
             int rolled = BNumber.random(1, (int) max + 1);
 
             //Sends message
-            if (rolled < 10)
-                sender.sendMessage(RollNotification.ROLL_RELIGION_LESS_10.getNotification(new BPlaceHolder("%sender%", sender.getName()),
+            if (rolled < 15)
+                sendMessage(sender, RollNotification.ROLL_RELIGION_LESS_15.getNotification(new BPlaceHolder("%sender%", sender.getName()),
                         new BPlaceHolder("%roll%", "" + rolled), new BPlaceHolder("%max%", "" + (int) max)));
             else
-                sender.sendMessage(RollNotification.ROLL_RELIGION_MORE_10.getNotification(new BPlaceHolder("%sender%", sender.getName()),
+                sendMessage(sender, RollNotification.ROLL_RELIGION_MORE_15.getNotification(new BPlaceHolder("%sender%", sender.getName()),
                         new BPlaceHolder("%roll%", "" + rolled), new BPlaceHolder("%max%", "" + (int) max)));
         });
     }
@@ -580,10 +583,10 @@ public final class RollCommand extends BCommand {
 
             //Sends message
             if (rolled < 10)
-                sender.sendMessage(RollNotification.ROLL_PERCEPTION_LESS_10.getNotification(new BPlaceHolder("%sender%", sender.getName()),
+                sendMessage(sender, RollNotification.ROLL_PERCEPTION_LESS_10.getNotification(new BPlaceHolder("%sender%", sender.getName()),
                         new BPlaceHolder("%roll%", "" + rolled), new BPlaceHolder("%max%", "" + (int) max)));
             else
-                sender.sendMessage(RollNotification.ROLL_PERCEPTION_MORE_10.getNotification(new BPlaceHolder("%sender%", sender.getName()),
+                sendMessage(sender, RollNotification.ROLL_PERCEPTION_MORE_10.getNotification(new BPlaceHolder("%sender%", sender.getName()),
                         new BPlaceHolder("%roll%", "" + rolled), new BPlaceHolder("%max%", "" + (int) max)));
         });
     }
@@ -606,10 +609,10 @@ public final class RollCommand extends BCommand {
 
             //Sends message
             if (rolled < 10)
-                sender.sendMessage(RollNotification.ROLL_NATURE_LESS_10.getNotification(new BPlaceHolder("%sender%", sender.getName()),
+                sendMessage(sender, RollNotification.ROLL_NATURE_LESS_10.getNotification(new BPlaceHolder("%sender%", sender.getName()),
                         new BPlaceHolder("%roll%", "" + rolled), new BPlaceHolder("%max%", "" + (int) max)));
             else
-                sender.sendMessage(RollNotification.ROLL_NATURE_MORE_10.getNotification(new BPlaceHolder("%sender%", sender.getName()),
+                sendMessage(sender, RollNotification.ROLL_NATURE_MORE_10.getNotification(new BPlaceHolder("%sender%", sender.getName()),
                         new BPlaceHolder("%roll%", "" + rolled), new BPlaceHolder("%max%", "" + (int) max)));
         });
     }
@@ -632,10 +635,10 @@ public final class RollCommand extends BCommand {
 
             //Sends message
             if (rolled < 10)
-                sender.sendMessage(RollNotification.ROLL_ANIMAL_HANDLING_LESS_10.getNotification(new BPlaceHolder("%sender%", sender.getName()),
+                sendMessage(sender, RollNotification.ROLL_ANIMAL_HANDLING_LESS_10.getNotification(new BPlaceHolder("%sender%", sender.getName()),
                         new BPlaceHolder("%roll%", "" + rolled), new BPlaceHolder("%max%", "" + (int) max)));
             else
-                sender.sendMessage(RollNotification.ROLL_ANIMAL_HANDLING_MORE_10.getNotification(new BPlaceHolder("%sender%", sender.getName()),
+                sendMessage(sender, RollNotification.ROLL_ANIMAL_HANDLING_MORE_10.getNotification(new BPlaceHolder("%sender%", sender.getName()),
                         new BPlaceHolder("%roll%", "" + rolled), new BPlaceHolder("%max%", "" + (int) max)));
         });
     }
@@ -658,10 +661,10 @@ public final class RollCommand extends BCommand {
 
             //Sends message
             if (rolled < 10)
-                sender.sendMessage(RollNotification.ROLL_MEDICINE_LESS_10.getNotification(new BPlaceHolder("%sender%", sender.getName()),
+                sendMessage(sender, RollNotification.ROLL_MEDICINE_LESS_10.getNotification(new BPlaceHolder("%sender%", sender.getName()),
                         new BPlaceHolder("%roll%", "" + rolled), new BPlaceHolder("%max%", "" + (int) max)));
             else
-                sender.sendMessage(RollNotification.ROLL_MEDICINE_MORE_10.getNotification(new BPlaceHolder("%sender%", sender.getName()),
+                sendMessage(sender, RollNotification.ROLL_MEDICINE_MORE_10.getNotification(new BPlaceHolder("%sender%", sender.getName()),
                         new BPlaceHolder("%roll%", "" + rolled), new BPlaceHolder("%max%", "" + (int) max)));
         });
     }
@@ -685,10 +688,10 @@ public final class RollCommand extends BCommand {
 
             //Sends message
             if (rolled < 10)
-                sender.sendMessage(RollNotification.ROLL_PERFORMANCE_LESS_10.getNotification(new BPlaceHolder("%sender%", sender.getName()),
+                sendMessage(sender, RollNotification.ROLL_PERFORMANCE_LESS_10.getNotification(new BPlaceHolder("%sender%", sender.getName()),
                         new BPlaceHolder("%roll%", "" + rolled), new BPlaceHolder("%max%", "" + (int) max)));
             else
-                sender.sendMessage(RollNotification.ROLL_PERFORMANCE_MORE_10.getNotification(new BPlaceHolder("%sender%", sender.getName()),
+                sendMessage(sender, RollNotification.ROLL_PERFORMANCE_MORE_10.getNotification(new BPlaceHolder("%sender%", sender.getName()),
                         new BPlaceHolder("%roll%", "" + rolled), new BPlaceHolder("%max%", "" + (int) max)));
         });
     }
@@ -717,12 +720,18 @@ public final class RollCommand extends BCommand {
 
             //Sends message
             if (rolled < 10)
-                sender.sendMessage(RollNotification.ROLL_LOCKPICK_LESS_10.getNotification(new BPlaceHolder("%sender%", sender.getName()),
+                sendMessage(sender, RollNotification.ROLL_LOCKPICK_LESS_10.getNotification(new BPlaceHolder("%sender%", sender.getName()),
                         new BPlaceHolder("%roll%", "" + rolled), new BPlaceHolder("%max%", "" + (int) max)));
             else
-                sender.sendMessage(RollNotification.ROLL_LOCKPICK_MORE_10.getNotification(new BPlaceHolder("%sender%", sender.getName()),
+                sendMessage(sender, RollNotification.ROLL_LOCKPICK_MORE_10.getNotification(new BPlaceHolder("%sender%", sender.getName()),
                         new BPlaceHolder("%roll%", "" + rolled), new BPlaceHolder("%max%", "" + (int) max)));
         });
     }
 
+    private void sendMessage(@Nonnull Player sender, @Nonnull String message) {
+        BValidate.notNull(sender);
+        BValidate.notNull(message);
+
+        sender.getLocation().getNearbyEntitiesByType(Player.class, 20).forEach(player -> player.sendMessage(message));
+    }
 }
